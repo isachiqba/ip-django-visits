@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
-from django.conf import settings
+from counter import settings
 from counter.models import Visit
 
 class CounterMiddleware:
@@ -32,7 +32,7 @@ class CounterMiddleware:
             print 'already visited'
 
     def ignored(self):
-        for ignored in settings.INGORE_URLS:
+        for ignored in settings.IGNORE_URLS:
             if self.url.startswith(ignored):
                 return True
 

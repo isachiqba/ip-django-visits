@@ -1,0 +1,6 @@
+build
+counter.egg-info
+dist
+
+syntax: glob 
+*.pyc

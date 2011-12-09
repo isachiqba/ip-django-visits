@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from simplecounter import settings
+from counter import settings
+
+from datetime import datetime, timedelta
 
 class Visit(models.Model):
     page_visited = models.CharField(max_length=255)
