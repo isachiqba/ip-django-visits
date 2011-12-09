@@ -5,6 +5,7 @@ from counter import settings
 
 from datetime import datetime, timedelta
 
+
 class Visit(models.Model):
     page_visited = models.CharField(max_length=255)
     visitor_ip = models.IPAddressField(blank=True, null=True, db_index=True)
@@ -18,6 +19,7 @@ class Visit(models.Model):
     class Meta:
         app_label = "counter"
 
+
 class ObjectVisitManager(models.Manager):
     def add_visit(self, request, obj):
         visit = ObjectVisit()
@@ -27,6 +29,7 @@ class ObjectVisitManager(models.Manager):
         visit.object_model = obj.__class__.__name__
         visit.time = datetime.today()
         visit.save()
+
 
 class ObjectVisit(models.Model):
     """
@@ -48,14 +51,22 @@ class ObjectVisit(models.Model):
             visits = visits.filter(user_agent=self.user_agent)
             visits = visits.filter(object_model=self.object_model)
             visits = visits.filter(object_id=self.object_id)
-            visits = visits.filter(time__gt=self.time-timedelta(minutes=int(settings.MIN_TIME_BETWEEN_VISITS)))
-            if len(visits)==0:
+            visits = visits.filter(
+                    time__gt=self.time - timedelta(
+                            minutes=int(settings.MIN_TIME_BETWEEN_VISITS)
+                    )
+            )
+            if len(visits) == 0:
                 super(ObjectVisit, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ('object_model','object_id')
+        ordering = ('object_model', 'object_id')
         verbose_name = _('visit')
         verbose_name_plural = _('visits')
 
     def __unicode__(self):
-        return u":".join([self.object_model,str(self.object_id),self.ip_address])
+        return u":".join([
+                self.object_model,
+                str(self.object_id),
+                self.ip_address
+        ])

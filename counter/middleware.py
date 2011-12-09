@@ -3,9 +3,10 @@ import datetime
 from counter import settings
 from counter.models import Visit
 
+
 class CounterMiddleware:
     def process_request(self, request):
-        if request.META.has_key("HTTP_X_FORWARDED_FOR"):
+        if "HTTP_X_FORWARDED_FOR" in request.META.keys():
             ip_address = request.META["HTTP_X_FORWARDED_FOR"]
             ip_address = ip_address.split(",")[0]
         else:
@@ -50,5 +51,8 @@ class CounterMiddleware:
             return False
 
     def get_visitor_object(self, ip_address):
-        visitor = Visit.objects.filter(visitor_ip=ip_address, page_visited=self.url)
+        visitor = Visit.objects.filter(
+            visitor_ip=ip_address,
+            page_visited=self.url
+        )
         return visitor[0] if len(visitor) else None
