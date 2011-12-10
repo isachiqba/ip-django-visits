@@ -1,7 +1,7 @@
 from django.template import Library, Node, TemplateSyntaxError, Variable
 from django.utils.translation import ugettext as _
 
-from counter.models import ObjectVisit
+from visits.models import ObjectVisit
 
 register = Library()
 

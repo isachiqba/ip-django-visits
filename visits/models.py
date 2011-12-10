@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from counter import settings
-from counter.utils import is_ignored
+from visits import settings
+from visits.utils import is_ignored
 
 from datetime import datetime, timedelta
 
@@ -18,7 +18,7 @@ class Visit(models.Model):
         return self.page_visited
 
     class Meta:
-        app_label = "counter"
+        app_label = "visits"
 
 
 class ObjectVisitManager(models.Manager):

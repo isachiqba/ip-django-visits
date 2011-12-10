@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
-from counter import settings
-from counter.models import Visit
-from counter.utils import is_ignored
+from visits import settings
+from visits.models import Visit
+from visits.utils import is_ignored
 
 class CounterMiddleware:
     def process_request(self, request):

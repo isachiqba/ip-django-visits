@@ -2,19 +2,19 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-import counter
+import visits
 
 setup(
-    name='counter',
-    version=counter.get_version(),
+    name='visits',
+    version=visits.get_version(),
     description="Visit counter for Django",
     long_description=open('README.rst', 'r').read(),
     keywords='django, visit, counter, visitors',
     author='Jesús Espino García',
     author_email='jespinog at gmail dot com',
-    url='https://bitbucket.org/jespino/simplecounter',
+    url='https://bitbucket.org/jespino/django-visits',
     license='LGPL',
-    package_dir={'counter': 'counter'},
+    package_dir={'visits': 'visits'},
     include_package_data=True,
     packages=find_packages(),
     classifiers=[

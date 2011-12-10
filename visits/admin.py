@@ -1,5 +1,5 @@
 from django.contrib import admin
-from counter.models import ObjectVisit
+from visits.models import ObjectVisit
 
 
 class ObjectVisitAdmin(admin.ModelAdmin):

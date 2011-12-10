@@ -1,5 +1,5 @@
 build
-counter.egg-info
+visits.egg-info
 dist
 
 syntax: glob 
