@@ -23,7 +23,7 @@ class Visit(models.Model):
 
 class ObjectVisitManager(models.Manager):
     def add_visit(self, request, obj):
-        if not is_ignored(request, urls=False):
+        if not is_ignored(request, url=False):
             visit = ObjectVisit()
             visit.ip_address = request.META.get('REMOTE_ADDR', '')
             visit.user_agent = request.META.get('HTTP_USER_AGENT', '')

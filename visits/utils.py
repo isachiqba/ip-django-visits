@@ -1,4 +1,4 @@
-from visits.settings import *
+from visits import settings
 
 def is_ignored(request, url=True, user_agent=True):
     if url:
