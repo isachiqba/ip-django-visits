@@ -2,7 +2,7 @@
 import datetime
 from counter import settings
 from counter.models import Visit
-
+from counter.utils import is_ignored
 
 class CounterMiddleware:
     def process_request(self, request):
@@ -17,7 +17,7 @@ class CounterMiddleware:
 
         visitor = self.get_visitor_object(ip_address=ip_address)
 
-        if not visitor and not self.ignored():
+        if not visitor and not is_ignored(request):
             print self.url
             visitor = Visit()
             visitor.page_visited = self.url
@@ -31,11 +31,6 @@ class CounterMiddleware:
             visitor.save()
         else:
             print 'already visited'
-
-    def ignored(self):
-        for ignored in settings.IGNORE_URLS:
-            if self.url.startswith(ignored):
-                return True
 
     def can_count(self, visitor):
         delta = datetime.timedelta(days=1)

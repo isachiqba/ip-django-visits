@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from counter import settings
+from counter.utils import is_ignored
 
 from datetime import datetime, timedelta
 
@@ -22,13 +23,14 @@ class Visit(models.Model):
 
 class ObjectVisitManager(models.Manager):
     def add_visit(self, request, obj):
-        visit = ObjectVisit()
-        visit.ip_address = request.META.get('REMOTE_ADDR', '')
-        visit.user_agent = request.META.get('HTTP_USER_AGENT', '')
-        visit.object_id = obj.id
-        visit.object_model = obj.__class__.__name__
-        visit.time = datetime.today()
-        visit.save()
+        if not is_ignored(request, urls=False):
+            visit = ObjectVisit()
+            visit.ip_address = request.META.get('REMOTE_ADDR', '')
+            visit.user_agent = request.META.get('HTTP_USER_AGENT', '')
+            visit.object_id = obj.id
+            visit.object_model = obj.__class__.__name__
+            visit.time = datetime.today()
+            visit.save()
 
 
 class ObjectVisit(models.Model):
