@@ -29,8 +29,6 @@ class CounterMiddleware:
             visitor.visits += 1
             visitor.last_visit = datetime.datetime.now()
             visitor.save()
-        else:
-            print 'already visited'
 
     def can_count(self, visitor):
         delta = datetime.timedelta(days=1)
