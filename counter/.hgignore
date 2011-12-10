@@ -1,7 +1,6 @@
 syntax: glob
 media/*
 *.idea
-setting.py
 *.DS_Store
 *.pyc
 *.idea

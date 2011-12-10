@@ -37,7 +37,6 @@ class CounterMiddleware:
     def already_visited_and_can_count(self, visitor):
         if type(visitor) != object:
             return False
-        print self.can_count(visitor)
         if self.url in visitor.page_visited and self.can_count(visitor):
             return True
         else:
@@ -49,3 +48,10 @@ class CounterMiddleware:
             page_visited=self.url
         )
         return visitor[0] if len(visitor) else None
+
+class BotVisitorMiddleware:
+    def process_request(self, request):
+        user_agent = request.META["HTTP_USER_AGENT"] or None
+        if user_agent in settings.IGNORE_USER_AGENTS:
+            request.META.setdefault("IS_BOT", True)
+        request.META.setdefault("IS_BOT", False)
