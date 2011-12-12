@@ -1,8 +1,8 @@
 from django.contrib import admin
-from visits.models import ObjectVisit
+from visits.models import Visit
 
 
-class ObjectVisitAdmin(admin.ModelAdmin):
-    pass
+class VisitAdmin(admin.ModelAdmin):
+    list_display = ['uri', 'object_app', 'object_model', 'object_id', 'visits']
 
-admin.site.register(ObjectVisit, ObjectVisitAdmin)
+admin.site.register(Visit, VisitAdmin)

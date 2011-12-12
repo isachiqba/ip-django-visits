@@ -1,22 +1,23 @@
 from django.template import Library, Node, TemplateSyntaxError, Variable
 from django.utils.translation import ugettext as _
+from django.db.models import Sum
 
-from visits.models import ObjectVisit
+from visits.models import Visit
 
 register = Library()
 
 
-class ObjectVisitsNode(Node):
+class VisitsNode(Node):
     def __init__(self, obj, context_var):
         self.obj = Variable(obj)
         self.context_var = context_var
 
     def render(self, context):
         obj = self.obj.resolve(context)
-        context[self.context_var] = ObjectVisit.objects.filter(
+        context[self.context_var] = Visit.objects.filter(
                 object_model=obj.__class__.__name__,
                 object_id=obj.id
-        ).count()
+        ).aggregate(visits_sum=Sum('visits'))['visits_sum']
         return ''
 
 
@@ -33,6 +34,6 @@ def do_object_visits(parser, token):
         raise TemplateSyntaxError(
                 _("second argument to %s tag must be 'as'") % bits[0]
         )
-    return ObjectVisitsNode(bits[1], bits[3])
+    return VisitsNode(bits[1], bits[3])
 
 register.tag('object_visits', do_object_visits)

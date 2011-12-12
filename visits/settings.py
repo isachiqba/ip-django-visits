@@ -15,3 +15,5 @@ IGNORE_USER_AGENTS = getattr(
                 "WebAlta Crawler", "MJ12bot", "Yandex/", "YaDirectBot", "StackRambler", "DotBot", "dotbot"
         ]
 )
+
+REQUEST_FIELDS_FOR_HASH = getattr(settings, 'REQUEST_FIELDS_FOR_HASH', ['REMOTE_ADDR', 'HTTP_USER_AGENT'])
