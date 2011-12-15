@@ -3,7 +3,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from visits.utils import is_ignored, gen_hash
 
-from datetime import datetime
+try:
+    from django.utils.timezone import now
+except ImportError:
+    from datetime.datetime import now
+
 
 class VisitManager(models.Manager):
     def get_uri_visits_for(self, request, app_model, uri=None):
@@ -39,7 +43,7 @@ class VisitManager(models.Manager):
         )
 
         if len(visit) and not is_ignored(request, visit[0]):
-            visit[0].last_visit = datetime.today()
+            visit[0].last_visit = now()
             visit[0].visits += 1
             visit[0].save()
 
@@ -54,7 +58,7 @@ class VisitManager(models.Manager):
         )
 
         if not is_ignored(request, visit[0]):
-            visit[0].last_visit = datetime.today()
+            visit[0].last_visit = now()
             visit[0].visits += 1
             visit[0].save()
 
