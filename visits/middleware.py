@@ -5,7 +5,10 @@ from visits.utils import is_ignored
 
 class CounterMiddleware:
     def process_request(self, request):
-        Visit.objects.add_uri_visit(request, request.META["PATH_INFO"])
+        if settings.URI_WITH_GET_PARAMS:
+            Visit.objects.add_uri_visit(request, request.get_full_path())
+        else:
+            Visit.objects.add_uri_visit(request, request.path_info)
 
 class BotVisitorMiddleware:
     def process_request(self, request):
