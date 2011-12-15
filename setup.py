@@ -5,8 +5,8 @@ from setuptools import setup, find_packages
 import visits
 
 setup(
-    name='visits',
-    version=visits.get_version(),
+    name='django-visits',
+    version = u":versiontools:visits:",
     description="Visit counter for Django",
     long_description=open('README.rst', 'r').read(),
     keywords='django, visit, counter, visitors',
@@ -14,9 +14,14 @@ setup(
     author_email='jespinog@gmail.com, sultan.imanhodjaev@gmail.com',
     url='https://bitbucket.org/jespino/django-visits',
     license='LGPL',
-    package_dir={'visits': 'visits'},
     include_package_data=True,
     packages=find_packages(),
+    install_requires=[
+        'distribute',
+    ],
+    setup_requires = [
+        'versiontools >= 1.8',
+    ],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",

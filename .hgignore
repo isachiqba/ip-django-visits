@@ -4,3 +4,4 @@ dist
 
 syntax: glob 
 *.pyc
+versiontools-*.egg
