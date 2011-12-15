@@ -13,6 +13,6 @@ class CounterMiddleware:
 class BotVisitorMiddleware:
     def process_request(self, request):
         user_agent = request.META.get("HTTP_USER_AGENT", None)
-        if user_agent in settings.IGNORE_USER_AGENTS:
+        if user_agent in settings.BOTS_USER_AGENTS:
             request.META.setdefault("IS_BOT", True)
         request.META.setdefault("IS_BOT", False)

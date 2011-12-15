@@ -7,16 +7,17 @@ try:
 except ImportError:
     from datetime.datetime import now
 
-def is_ignored(request, visit, url=True, user_agent=True):
+def is_ignored(request, visit, url=True, bots=True, user_agents=True):
     if url:
         for ignored_url in settings.IGNORE_URLS:
             if request.META["PATH_INFO"].startswith(ignored_url):
                 return True
 
-    if user_agent:
-        for ignored_user_agent in settings.IGNORE_USER_AGENTS:
-            if ignored_user_agent in request.META["HTTP_USER_AGENT"]:
-                return True
+    if user_agents and request.META.get("HTTP_USER_AGENT", "") in settings.IGNORE_USER_AGENTS:
+        return True
+
+    if bots and request.META.get("IS_BOT", False):
+        return True
 
     if not visit.last_visit:
         return False
