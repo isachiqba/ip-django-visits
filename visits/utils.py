@@ -15,7 +15,7 @@ def is_ignored(request, visit, url=True, user_agent=True):
 
     if not visit.last_visit:
         return False
-    elif (visit.last_visit+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<datetime.datetime.today():
+    elif (visit.last_visit.replace(tzinfo=None)+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<datetime.datetime.today():
         return False
     else:
         return True
