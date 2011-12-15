@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from visits.utils import is_ignored, gen_hash
@@ -39,7 +38,7 @@ class VisitManager(models.Manager):
                 ip_address=request.META.get('REMOTE_ADDR','')
         )
 
-        if not is_ignored(request, visit[0]):
+        if len(visit) and not is_ignored(request, visit[0]):
             visit[0].last_visit = datetime.today()
             visit[0].visits += 1
             visit[0].save()
