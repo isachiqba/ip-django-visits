@@ -2,6 +2,11 @@ from visits import settings
 import hashlib
 import datetime
 
+try:
+    from django.utils.timezone import utc
+except ImportError:
+    utc = None
+
 def is_ignored(request, visit, url=True, user_agent=True):
     if url:
         for ignored_url in settings.IGNORE_URLS:
@@ -15,7 +20,7 @@ def is_ignored(request, visit, url=True, user_agent=True):
 
     if not visit.last_visit:
         return False
-    elif (visit.last_visit.replace(tzinfo=None)+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<datetime.datetime.today():
+    elif (visit.last_visit.replace(tzinfo=utc)+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<datetime.datetime.utcnow().replace(tzinfo=utc):
         return False
     else:
         return True
