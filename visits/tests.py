@@ -4,7 +4,6 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
-import requests
 from django.test import TestCase
 from django.test.client import Client
 
