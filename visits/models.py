@@ -2,10 +2,9 @@
 import re
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from visits import settings
 from visits.utils import is_ignored, gen_hash
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 class VisitManager(models.Manager):
     def get_uri_visits_for(self, request, app_model, uri=None):
