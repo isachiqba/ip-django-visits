@@ -3,9 +3,9 @@ import hashlib
 import datetime
 
 try:
-    from django.utils.timezone import utc
+    from django.utils.timezone import now
 except ImportError:
-    utc = None
+    from datetime.datetime import now
 
 def is_ignored(request, visit, url=True, user_agent=True):
     if url:
@@ -20,7 +20,7 @@ def is_ignored(request, visit, url=True, user_agent=True):
 
     if not visit.last_visit:
         return False
-    elif (visit.last_visit.replace(tzinfo=utc)+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<datetime.datetime.utcnow().replace(tzinfo=utc):
+    elif (visit.last_visit+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<now():
         return False
     else:
         return True
