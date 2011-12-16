@@ -5,7 +5,8 @@ import datetime
 try:
     from django.utils.timezone import now
 except ImportError:
-    from datetime.datetime import now
+    from datetime import datetime 
+    now = datetime.now
 
 def is_ignored(request, visit, url=True, bots=True, user_agents=True):
     if url:
