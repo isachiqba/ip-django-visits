@@ -27,6 +27,8 @@ You settings file should contain the following settings
 
 BOTS_USER_AGENTS by default will have the following values
 
+::
+
     [
         "Teoma", "alexa", "froogle", "Gigabot", "inktomi", "looksmart", "URL_Spider_SQL", "Firefly",
         "NationalDirectory", "Ask Jeeves", "TECNOSEEK", "InfoSeek", "WebFindBot", "girafabot", "crawler",
@@ -41,6 +43,8 @@ Usage
 
 * Add visits to INSTALLED_APPS
 
+::
+
 	INSTALLED_APPS = (
 	    # ...
 	    "visits",
@@ -48,10 +52,14 @@ Usage
 
 * If you want to filter some type of user agents you can define IGNORE_USER_AGENTS in your settings.py
 
+::
+
     IGNORE_USER_AGENTS = ["Wget/", "curl/"]
 
 
 * If you want to filter bots from real users then in MIDDLEWARE_CLASSES set 
+
+::
 
 	MIDDLEWARE_CLASSES = (
 	    # ...
@@ -59,6 +67,8 @@ Usage
 	)
 
 * If you want to count visits automatically per url the you should add CounterMiddleware to MIDDLEWARE_CLASSES
+
+::
 
 	MIDDLEWARE_CLASSES = (
 	    # ...
@@ -69,6 +79,8 @@ Usage
 
 * If you want count url visit manually you can do it the way below
 
+::
+
 	from visits.models import Visits
 
 	def some_object_view(request, pk):
@@ -77,6 +89,8 @@ Usage
 	    #...
 
 * If you want count visits per object then it's similar to the example above
+
+::
 
 	from visits.models import Visits
 
@@ -88,6 +102,8 @@ Usage
 
 
 * From inside of a template you can get object visits using object_visits templatetag
+
+::
 
 	{% object_vists some_object as visits %}
 
