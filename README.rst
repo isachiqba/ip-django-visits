@@ -9,21 +9,12 @@ Configuration
 
 You settings file should contain the following settings 
 
-+-------------------------+------------------------------------------------------------------------------------+
-| Configuration           | What means                                                                         |
-+=========================+====================================================================================+
-| MIN_TIME_BETWEEN_VISITS | the minimum allowed time between visits for the user to update counter             |
-+-------------------------+------------------------------------------------------------------------------------+
-| IGNORE_URLS             | urls to ignore e.g. static urls etc.                                               |
-+-------------------------+------------------------------------------------------------------------------------+
-| IGNORE_USER_AGENTS      | this is used to define what user agents to ignore                                  |
-+-------------------------+------------------------------------------------------------------------------------+
-| BOTS_USER_AGENTS        | this is used to define whether user is real or bot is user by BotVisitorMiddleware |
-+-------------------------+------------------------------------------------------------------------------------+
-| REQUEST_FIELDS_FOR_HASH | used to generate unique identifier for visitor                                     |
-+-------------------------+------------------------------------------------------------------------------------+
-| URI_WITH_GET_PARAMS     | use get params to identify diferents uris                                          |
-+-------------------------+------------------------------------------------------------------------------------+
+  * MIN_TIME_BETWEEN_VISITS: the minimum allowed time between visits for the user to update counter
+  * IGNORE_URLS: urls to ignore e.g. static urls etc.
+  * IGNORE_USER_AGENTS: this is used to define what user agents to ignore
+  * BOTS_USER_AGENTS: this is used to define whether user is real or bot is user by BotVisitorMiddleware
+  * REQUEST_FIELDS_FOR_HASH: used to generate unique identifier for visitor
+  * URI_WITH_GET_PARAMS: use get params to identify diferents uris
 
 BOTS_USER_AGENTS by default will have the following values
 
