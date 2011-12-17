@@ -93,7 +93,7 @@ Usage
 
 * From inside of a template you can get
 
- * object visits using
+ * object visits using get_visits
 
  * url visits using get_visits templatetag
 

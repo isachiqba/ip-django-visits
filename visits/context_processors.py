@@ -8,6 +8,6 @@ def request_meta(request):
         "visits_meta": {
             "request_path": uri,
             "visitor_hash": gen_hash(request, uri),
-            "ip_address": ip
+            "ip_address": ip,
         }
     }
