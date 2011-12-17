@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 from django.contrib import admin
 from visits.models import Visit
-
 
 class VisitAdmin(admin.ModelAdmin):
     list_display = ['visitor_hash', 'uri', 'object_app', 'object_model', 'object_id', 'visits']
