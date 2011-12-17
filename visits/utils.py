@@ -2,20 +2,27 @@ from visits import settings
 import hashlib
 import datetime
 
-def is_ignored(request, visit, url=True, user_agent=True):
+try:
+    from django.utils.timezone import now
+except ImportError:
+    from datetime import datetime 
+    now = datetime.now
+
+def is_ignored(request, visit, url=True, bots=True, user_agents=True):
     if url:
         for ignored_url in settings.IGNORE_URLS:
             if request.META["PATH_INFO"].startswith(ignored_url):
                 return True
 
-    if user_agent:
-        for ignored_user_agent in settings.IGNORE_USER_AGENTS:
-            if ignored_user_agent in request.META["HTTP_USER_AGENT"]:
-                return True
+    if user_agents and request.META.get("HTTP_USER_AGENT", "") in settings.IGNORE_USER_AGENTS:
+        return True
+
+    if bots and request.META.get("IS_BOT", False):
+        return True
 
     if not visit.last_visit:
         return False
-    elif (visit.last_visit.replace(tzinfo=None)+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<datetime.datetime.today():
+    elif (visit.last_visit+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<now():
         return False
     else:
         return True
