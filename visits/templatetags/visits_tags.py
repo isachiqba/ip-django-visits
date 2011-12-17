@@ -14,14 +14,20 @@ class VisitsNode(Node):
 
     def render(self, context):
         obj = self.obj.resolve(context)
-        context[self.context_var] = Visit.objects.filter(
+        if type(obj) is dict:
+            context[self.context_var] = Visit.objects.filter(
                 object_model=obj.__class__.__name__,
                 object_id=obj.id
-        ).aggregate(visits_sum=Sum('visits'))['visits_sum']
+            ).aggregate(visits_sum=Sum('visits'))['visits_sum']
+        elif "instance" in str(type(obj)):
+            context[self.context_var] = Visit.objects.filter(
+                visitor_hash=obj["visitor_hash"],
+                uri=obj["request_path"],
+                ip_address=obj["ip_address"]
+            ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
         return ''
 
-
-def do_object_visits(parser, token):
+def do_get_visits(parser, token):
     """
     Retrive the number of visits of a model/slug
     """
@@ -36,4 +42,4 @@ def do_object_visits(parser, token):
         )
     return VisitsNode(bits[1], bits[3])
 
-register.tag('object_visits', do_object_visits)
+register.tag("get_visits", do_get_visits)
