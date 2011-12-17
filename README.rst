@@ -75,7 +75,7 @@ Usage
 	from visits.models import Visits
 
 	def some_object_view(request, pk):
-	    Visits.objects.add_uri_visit(request, request.META["PATH_INFO"])
+	    Visits.objects.add_uri_visit(request, request.META["PATH_INFO"], APP_LABEL)
 	    #...
 	    #...
 
