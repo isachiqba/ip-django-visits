@@ -1,6 +1,6 @@
 from visits.utils import gen_hash
 
-def request_path(request):
+def request_meta(request):
     uri = request.META.get("PATH_INFO", None)
     ip = request.META.get('REMOTE_ADDR','')
     return {

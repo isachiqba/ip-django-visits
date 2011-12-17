@@ -75,8 +75,18 @@ Usage
 	    #...
 
 
-* From inside of a template you can get object visits using object_visits templatetag
+* From inside of a template you can get
+ * object visits using
+ * url visits using get_visits templatetag
 ::
-	{% object_vists some_object as visits %}
+	{% get_vists some_object as visits %}
+	{% get_vists visits_meta as visits %}
 
+Note: to get uri visits using get_visits templatetag you should add the following to TEMPLATE_CONTEXT_PROCESSORS
+
+::
+    TEMPLATE_CONTEXT_PROCESSORS = (
+        #...
+        "visits.context_processors.request_meta",
+    )
 Have fun!
