@@ -9,7 +9,6 @@ except ImportError:
     from datetime import datetime
     now = datetime.now
 
-
 class VisitManager(models.Manager):
     def get_uri_visits_for(self, request, app_model=None, uri=None):
         if uri:
@@ -64,7 +63,7 @@ class VisitManager(models.Manager):
             object_app=obj._meta.app_label,
             object_model=obj.__class__.__name__,
             object_id=obj.id,
-            ip_address=request.META.get('REMOTE_ADDR','')
+            ip_address=request.META.get('REMOTE_ADDR', '')
         )
 
         if len(visit) and not is_ignored(request, visit[0]):
