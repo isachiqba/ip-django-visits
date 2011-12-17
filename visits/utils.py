@@ -1,12 +1,12 @@
-from visits import settings
+# -*- coding: utf-8 -*-
 import hashlib
 import datetime
+from visits import settings
 
 try:
     from django.utils.timezone import now
 except ImportError:
-    from datetime import datetime 
-    now = datetime.now
+    now = datetime.datetime.now
 
 def is_ignored(request, visit, url=True, bots=True, user_agents=True):
     if url:
@@ -22,7 +22,10 @@ def is_ignored(request, visit, url=True, bots=True, user_agents=True):
 
     if not visit.last_visit:
         return False
-    elif (visit.last_visit+datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS))<now():
+
+    time_since_last_visit = visit.last_visit + datetime.timedelta(minutes=settings.MIN_TIME_BETWEEN_VISITS)
+
+    if time_since_last_visit < now():
         return False
     else:
         return True

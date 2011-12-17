@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from visits.utils import gen_hash
 
 def request_meta(request):

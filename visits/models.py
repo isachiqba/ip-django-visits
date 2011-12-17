@@ -23,9 +23,8 @@ class VisitManager(models.Manager):
             return self.filter(
                 object_app = app_model._meta.app_label,
                 object_model = app_model.__class__.__name__,
-                uri__regex = r"^.*/{0,}$"
+                uri__regex="^(.*/){1,}"
             )
-
         else:
             raise ValueError('You must pass "app_model" or "uri" parameter.')
 
@@ -67,7 +66,7 @@ class VisitManager(models.Manager):
             ip_address = request.META.get('REMOTE_ADDR','')
         )
 
-        if not is_ignored(request, visit[0]):
+        if len(visit) and not is_ignored(request, visit[0]):
             visit[0].last_visit = now()
             visit[0].visits += 1
             visit[0].save()
