@@ -19,4 +19,5 @@ class BotVisitorMiddleware(object):
         user_agent = request.META.get("HTTP_USER_AGENT", None)
         if user_agent in settings.BOTS_USER_AGENTS:
             request.META.setdefault("IS_BOT", True)
-        request.META.setdefault("IS_BOT", False)
+        else:
+            request.META.setdefault("IS_BOT", False)
