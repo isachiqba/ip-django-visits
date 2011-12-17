@@ -14,15 +14,15 @@ class VisitManager(models.Manager):
     def get_uri_visits_for(self, request, app_model=None, uri=None):
         if uri:
             return self.filter(
-                visitor_hash = gen_hash(request, uri),
-                uri = uri,
-                ip_address = request.META.get('REMOTE_ADDR','')
+                visitor_hash=gen_hash(request, uri),
+                uri=uri,
+                ip_address=request.META.get('REMOTE_ADDR','')
             )
 
         elif app_model:
             return self.filter(
-                object_app = app_model._meta.app_label,
-                object_model = app_model.__class__.__name__,
+                object_app=app_model._meta.app_label,
+                object_model=app_model.__class__.__name__,
                 uri__regex="^(.*/){1,}"
             )
         else:
@@ -32,23 +32,24 @@ class VisitManager(models.Manager):
         if obj:
             visitor_hash = gen_hash(request, obj._meta.app_label, obj.__class__.__name__, obj.id)
             return self.filter(
-                visitor_hash = visitor_hash,
-                object_app = obj._meta.app_label,
-                object_model = obj.__class__.__name__,
-                object_id = obj.id
+                visitor_hash=visitor_hash,
+                object_app=obj._meta.app_label,
+                object_model=obj.__class__.__name__,
+                object_id=obj.id
             )
 
         return self.filter(
-            object_app = app_model._meta.app_label,
-            object_model = app_model.__class__.__name__
+            object_app=app_model._meta.app_label,
+            object_model=app_model.__class__.__name__
         )
  
-    def add_uri_visit(self, request, uri):
+    def add_uri_visit(self, request, uri, app_label):
         visitor_hash = gen_hash(request, uri)
         visit = self.get_or_create(
-            ip_address = request.META.get('REMOTE_ADDR',''),
-            visitor_hash = visitor_hash,
-            uri = uri,
+            ip_address=request.META.get('REMOTE_ADDR',''),
+            visitor_hash=visitor_hash,
+            uri=uri,
+            object_app=app_label
         )
 
         if len(visit) and not is_ignored(request, visit[0]):
@@ -59,11 +60,11 @@ class VisitManager(models.Manager):
     def add_object_visit(self, request, obj):
         visitor_hash = gen_hash(request, obj._meta.app_label, obj.__class__.__name__, obj.id)
         visit = self.get_or_create(
-            visitor_hash = visitor_hash,
-            object_app = obj._meta.app_label,
-            object_model = obj.__class__.__name__,
-            object_id = obj.id,
-            ip_address = request.META.get('REMOTE_ADDR','')
+            visitor_hash=visitor_hash,
+            object_app=obj._meta.app_label,
+            object_model=obj.__class__.__name__,
+            object_id=obj.id,
+            ip_address=request.META.get('REMOTE_ADDR','')
         )
 
         if len(visit) and not is_ignored(request, visit[0]):
