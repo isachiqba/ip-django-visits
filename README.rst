@@ -108,4 +108,5 @@ Note: to get uri visits using get_visits templatetag you should add the followin
         #...
         "visits.context_processors.request_meta",
     )
+
 Have fun!
