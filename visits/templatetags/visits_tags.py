@@ -22,11 +22,9 @@ class VisitsNode(Node):
             ).aggregate(visits_sum=Sum('visits'))['visits_sum']
         elif "instance" in str(type(obj)):
             context[self.context_var] = Visit.objects.filter(
-                visitor_hash=obj["visitor_hash"],
-                uri=obj["request_path"],
-                ip_address=obj["ip_address"]
+                uri=obj["request_path"]
             ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
-        return ''
+        return ""
 
 def do_get_visits(parser, token):
     """
