@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models.aggregates import Max, Min, Avg
 from django.utils.translation import ugettext_lazy as _
 from visits.utils import is_ignored, gen_hash
 
@@ -8,6 +9,10 @@ try:
 except ImportError:
     from datetime import datetime
     now = datetime.now
+
+MAX = 1
+AVG = 2
+MIN = 3
 
 class VisitManager(models.Manager):
     def get_uri_visits_for(self, request, app_model=None, uri=None):
@@ -70,6 +75,25 @@ class VisitManager(models.Manager):
             visit[0].last_visit = now()
             visit[0].visits += 1
             visit[0].save()
+
+    def calculate(self, obj, uri, what=MAX):
+        if obj:
+            visits = self.filter(
+                object_app=obj._meta.app_label,
+                object_model=obj.__class__.__name__)
+        elif uri:
+            visits = self.filter(uri=uri).aggregate(Max("visits"))
+        else:
+            raise Exception("Parameters obj or uri must be specified")
+
+        if what is MAX:
+            return visits.aggregate(Max("visits"))
+        elif what is MIN:
+            return visits.aggregate(Min("visits"))
+        elif what is AVG:
+            return visits.aggregate(Avg("visits"))
+        else:
+            return None
 
 class Visit(models.Model):
     visitor_hash = models.CharField(max_length=40, blank=True, null=True, db_index=True)
