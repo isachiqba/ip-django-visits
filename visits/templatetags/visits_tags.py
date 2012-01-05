@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.template import Library, Node, TemplateSyntaxError, Variable
 from django.utils.translation import ugettext as _
-from django.db.models import Sum
+from django.db.models import Sum, Model
 
 from visits.models import Visit
 
@@ -15,16 +15,18 @@ class VisitsNode(Node):
 
     def render(self, context):
         obj = self.obj.resolve(context)
-        if type(obj) is dict:
+        
+        if isinstance(obj, dict):
             context[self.context_var] = Visit.objects.filter(
+                uri=obj["request_path"],
+            ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
+        elif isinstance(obj, Model):
+            context[self.context_var] = Visit.objects.filter(
+                object_app=obj._meta.app_label,
                 object_model=obj.__class__.__name__,
                 object_id=obj.id
             ).aggregate(visits_sum=Sum('visits'))['visits_sum']
-        elif "instance" in str(type(obj)):
-            context[self.context_var] = Visit.objects.filter(
-                uri=obj["request_path"]
-            ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
-        return ""
+        return ''
 
 def do_get_visits(parser, token):
     """

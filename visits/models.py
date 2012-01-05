@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.aggregates import Max, Min, Avg
 from django.utils.translation import ugettext_lazy as _
 from visits.utils import is_ignored, gen_hash
+from visits import settings
 
 try:
     from django.utils.timezone import now
@@ -32,11 +33,9 @@ class VisitManager(models.Manager):
         else:
             raise ValueError('You must pass "app_model" or "uri" parameter.')
 
-    def get_object_visits_for(self, request, app_model, obj=None):
+    def get_object_visits_for(self, app_model=None, obj=None):
         if obj:
-            visitor_hash = gen_hash(request, obj._meta.app_label, obj.__class__.__name__, obj.id)
             return self.filter(
-                visitor_hash=visitor_hash,
                 object_app=obj._meta.app_label,
                 object_model=obj.__class__.__name__,
                 object_id=obj.id
@@ -49,32 +48,53 @@ class VisitManager(models.Manager):
  
     def add_uri_visit(self, request, uri, app_label):
         visitor_hash = gen_hash(request, uri)
-        visit = self.get_or_create(
-            ip_address=request.META.get('REMOTE_ADDR',''),
-            visitor_hash=visitor_hash,
-            uri=uri,
-            object_app=app_label
-        )
+        if settings.VISITS_OBJECTS_AS_COUNTERS:
+            visit = self.get_or_create(
+                ip_address=request.META.get('REMOTE_ADDR',''),
+                visitor_hash=visitor_hash,
+                uri=uri,
+                object_app=app_label
+            )
+        else:
+            visit = (Visit(
+                ip_address=request.META.get('REMOTE_ADDR',''),
+                visitor_hash=visitor_hash,
+                uri=uri,
+                object_app=app_label
+            ), True)
 
-        if len(visit) and not is_ignored(request, visit[0]):
-            visit[0].last_visit = now()
-            visit[0].visits += 1
-            visit[0].save()
+        if len(visit):
+            visit[0].last_visit = Visit.objects.filter(visitor_hash=visitor_hash).aggregate(last_visit=models.Max('last_visit'))['last_visit']
+            if not is_ignored(request, visit[0]):
+                visit[0].last_visit = now()
+                visit[0].visits += 1
+                visit[0].save()
 
     def add_object_visit(self, request, obj):
         visitor_hash = gen_hash(request, obj._meta.app_label, obj.__class__.__name__, obj.id)
-        visit = self.get_or_create(
-            visitor_hash=visitor_hash,
-            object_app=obj._meta.app_label,
-            object_model=obj.__class__.__name__,
-            object_id=obj.id,
-            ip_address=request.META.get('REMOTE_ADDR', '')
-        )
+        if settings.VISITS_OBJECTS_AS_COUNTERS:
+            visit = self.get_or_create(
+                visitor_hash=visitor_hash,
+                object_app=obj._meta.app_label,
+                object_model=obj.__class__.__name__,
+                object_id=obj.id,
+                ip_address=request.META.get('REMOTE_ADDR', '')
+            )
+        else:
+            visit = (Visit(
+                visitor_hash=visitor_hash,
+                object_app=obj._meta.app_label,
+                object_model=obj.__class__.__name__,
+                object_id=obj.id,
+                ip_address=request.META.get('REMOTE_ADDR', '')
+            ), True)
 
-        if len(visit) and not is_ignored(request, visit[0]):
-            visit[0].last_visit = now()
-            visit[0].visits += 1
-            visit[0].save()
+        if len(visit):
+            visit[0].last_visit = Visit.objects.filter(visitor_hash=visitor_hash).aggregate(last_visit=models.Max('last_visit'))['last_visit']
+            if not is_ignored(request, visit[0]):
+                visit[0].last_visit = now()
+                visit[0].visits += 1
+                visit[0].save()
 
     def calculate(self, obj, uri, what=MAX):
         if obj:
