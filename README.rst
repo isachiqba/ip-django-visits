@@ -15,6 +15,7 @@ You settings file should contain the following settings
 * BOTS_USER_AGENTS: this is used to define whether user is real or bot is user by BotVisitorMiddleware
 * REQUEST_FIELDS_FOR_HASH: used to generate unique identifier for visitor
 * URI_WITH_GET_PARAMS: use get params to identify diferents uris
+* VISITS_OBJECTS_AS_COUNTERS: enable or disable the behavior of visits objects as counters (on False, every diferent visits is counted in a diferent object)
 
 BOTS_USER_AGENTS by default will have the following values
 
