@@ -26,6 +26,8 @@ class VisitsNode(Node):
                 object_model=obj.__class__.__name__,
                 object_id=obj.id
             ).aggregate(visits_sum=Sum('visits'))['visits_sum']
+        else:
+            context[self.context_var] = 0
         return ''
 
 def do_get_visits(parser, token):
