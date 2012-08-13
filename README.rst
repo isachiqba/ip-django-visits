@@ -76,7 +76,7 @@ Usage
 	from visits.models import Visits
 
 	def some_object_view(request, pk):
-	    Visits.objects.add_uri_visit(request, request.META["PATH_INFO"], APP_LABEL)
+	    Visit.objects.add_uri_visit(request, request.META["PATH_INFO"], APP_LABEL)
 	    #...
 	    #...
 
@@ -88,7 +88,7 @@ Usage
 
 	def some_object_view(request, pk):
 	    some_obj = get_object_or_404(SOME_MODEL, pk=pk)
-	    Visits.objects.add_object_visit(request, obj=some_obj)
+	    Visit.objects.add_object_visit(request, obj=some_obj)
 	    #...
 	    #...
 
