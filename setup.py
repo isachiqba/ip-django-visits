@@ -8,7 +8,7 @@ setup(
     name='django-visits',
     version = u":versiontools:visits:",
     description="Visit counter for Django",
-    long_description="Visit counter for Django",
+    long_description="Visit counter app for Django to count visits for records and given urls",
     keywords='django, visit, counter, visitors',
     author='Jesús Espino García & Sultan Imanhodjaev',
     author_email='jespinog@gmail.com, sultan.imanhodjaev@gmail.com',
