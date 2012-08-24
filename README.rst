@@ -100,8 +100,8 @@ Usage
 
 ::
 
-	{% get_vists some_object as visits %}
-	{% get_vists visits_meta as visits %}
+	{% get_visits some_object as visits %}
+	{% get_visits visits_meta as visits %}
 
 Note: to get uri visits using get_visits templatetag you should add the following to TEMPLATE_CONTEXT_PROCESSORS
 
