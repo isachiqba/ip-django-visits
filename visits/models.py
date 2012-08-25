@@ -43,7 +43,7 @@ class VisitManager(models.Manager):
 
         return self.filter(
             object_app=app_model._meta.app_label,
-            object_model=app_model.__class__.__name__
+            object_model=app_model.__name__
         )
  
     def add_uri_visit(self, request, uri, app_label):
