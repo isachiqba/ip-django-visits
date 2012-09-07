@@ -4,11 +4,13 @@
 from setuptools import setup, find_packages
 import visits
 
+package_description = open('README.rst').read() + open('CHANGES').read()
+
 setup(
     name='django-visits',
     version = u":versiontools:visits:",
     description="Visit counter for Django",
-    long_description="Visit counter app for Django to count visits for records and given urls",
+    long_description=package_description,
     keywords='django, visit, counter, visitors',
     author='Jesús Espino García & Sultan Imanhodjaev',
     author_email='jespinog@gmail.com, sultan.imanhodjaev@gmail.com',
