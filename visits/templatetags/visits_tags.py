@@ -19,13 +19,13 @@ class VisitsNode(Node):
         if isinstance(obj, dict):
             context[self.context_var] = Visit.objects.filter(
                 uri=obj["request_path"],
-            ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
+                ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
         elif isinstance(obj, Model):
             context[self.context_var] = Visit.objects.filter(
                 object_app=obj._meta.app_label,
                 object_model=obj.__class__.__name__,
                 object_id=obj.id
-            ).aggregate(visits_sum=Sum('visits'))['visits_sum']
+                ).aggregate(visits_sum=Sum('visits'))['visits_sum']
         else:
             context[self.context_var] = 0
         return ''
