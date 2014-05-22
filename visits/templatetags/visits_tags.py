@@ -16,7 +16,11 @@ class VisitsNode(Node):
     def render(self, context):
         obj = self.obj.resolve(context)
         
-        if isinstance(obj, dict):
+        if isinstance(obj, basestring):
+            context[self.context_var] = Visit.objects.filter(
+                uri__regex=obj,
+            ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
+        elif isinstance(obj, dict):
             context[self.context_var] = Visit.objects.filter(
                 uri=obj["request_path"],
             ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
