@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-
-import sys, os
+import sys
+import os
 from django.conf import settings
 
 
 test_settings = {
-    'DATABASES':{
+    'DATABASES': {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
         }
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     if not test_args:
         test_args = ['test_app']
-    
+
     from django.test.simple import DjangoTestSuiteRunner
     runner = DjangoTestSuiteRunner(verbosity=2, interactive=True, failfast=False)
     failures = runner.run_tests(test_args)

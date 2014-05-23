@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from visits.utils import is_ignored, gen_hash
 from visits import settings
 
+
 try:
     from django.utils.timezone import now
 except ImportError:
@@ -15,13 +16,14 @@ MAX = 1
 AVG = 2
 MIN = 3
 
+
 class VisitManager(models.Manager):
-    def get_uri_visits_for(self, request, app_model=None, uri=None, regex = None):
+    def get_uri_visits_for(self, request, app_model=None, uri=None, regex=None):
         if uri:
             return self.filter(
                 visitor_hash=gen_hash(request, uri),
                 uri=uri,
-                ip_address=request.META.get('REMOTE_ADDR','')
+                ip_address=request.META.get('REMOTE_ADDR', '')
             )
 
         elif app_model:
@@ -34,7 +36,7 @@ class VisitManager(models.Manager):
             return self.filter(
                 visitor_hash=gen_hash(request, uri),
                 uri__regex=regex,
-                ip_address=request.META.get('REMOTE_ADDR','')
+                ip_address=request.META.get('REMOTE_ADDR', '')
             )
 
         else:
@@ -59,14 +61,14 @@ class VisitManager(models.Manager):
         visitor_hash = gen_hash(request, uri)
         if settings.VISITS_OBJECTS_AS_COUNTERS:
             visit = self.get_or_create(
-                ip_address=request.META.get('REMOTE_ADDR',''),
+                ip_address=request.META.get('REMOTE_ADDR', ''),
                 visitor_hash=visitor_hash,
                 uri=uri,
                 object_app=app_label
             )
         else:
             visit = (Visit(
-                ip_address=request.META.get('REMOTE_ADDR',''),
+                ip_address=request.META.get('REMOTE_ADDR', ''),
                 visitor_hash=visitor_hash,
                 uri=uri,
                 object_app=app_label
@@ -123,6 +125,7 @@ class VisitManager(models.Manager):
             return visits.aggregate(Avg("visits"))
         else:
             return None
+
 
 class Visit(models.Model):
     visitor_hash = models.CharField(max_length=40, blank=True, null=True, db_index=True)
