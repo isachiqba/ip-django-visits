@@ -2,13 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-import visits
 
 package_description = open('README.rst').read() + open('CHANGES').read()
 
 setup(
     name='django-visits',
-    version = u":versiontools:visits:",
+    version=u":versiontools:visits:",
     description="Visit counter for Django",
     long_description=package_description,
     keywords='django, visit, counter, visitors',
@@ -21,7 +20,7 @@ setup(
     install_requires=[
         'distribute',
     ],
-    setup_requires = [
+    setup_requires=[
         'versiontools >= 1.8',
     ],
     classifiers=[

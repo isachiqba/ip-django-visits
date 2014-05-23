@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from visits import settings
 from visits.models import Visit
-from visits.utils import is_ignored
 from django.core.urlresolvers import resolve
+
 
 class CounterMiddleware(object):
     """ Middleware for count uri visits. """
