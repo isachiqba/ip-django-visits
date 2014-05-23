@@ -16,7 +16,7 @@ AVG = 2
 MIN = 3
 
 class VisitManager(models.Manager):
-    def get_uri_visits_for(self, request, app_model=None, uri=None):
+    def get_uri_visits_for(self, request, app_model=None, uri=None, regex = None):
         if uri:
             return self.filter(
                 visitor_hash=gen_hash(request, uri),
@@ -30,8 +30,15 @@ class VisitManager(models.Manager):
                 object_model=app_model.__class__.__name__,
                 uri__regex="^(.*/){1,}"
             )
+        elif regex:
+            return self.filter(
+                visitor_hash=gen_hash(request, uri),
+                uri__regex=regex,
+                ip_address=request.META.get('REMOTE_ADDR','')
+            )
+
         else:
-            raise ValueError('You must pass "app_model" or "uri" parameter.')
+            raise ValueError('You must pass either of "app_model", "uri" or "regex" parameters.')
 
     def get_object_visits_for(self, app_model=None, obj=None):
         if obj:
@@ -40,12 +47,14 @@ class VisitManager(models.Manager):
                 object_model=obj.__class__.__name__,
                 object_id=obj.id
             )
+        elif app_model:
+            return self.filter(
+                object_app=app_model._meta.app_label,
+                object_model=app_model.__name__
+            )
+        else:
+            raise ValueError('You must pass either of "app_model" or "obj" parameters.')
 
-        return self.filter(
-            object_app=app_model._meta.app_label,
-            object_model=app_model.__name__
-        )
- 
     def add_uri_visit(self, request, uri, app_label):
         visitor_hash = gen_hash(request, uri)
         if settings.VISITS_OBJECTS_AS_COUNTERS:
