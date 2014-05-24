@@ -13,6 +13,8 @@ setup(
     keywords='django, visit, counter, visitors',
     author='Jesús Espino García & Sultan Imanhodjaev',
     author_email='jespinog@gmail.com, sultan.imanhodjaev@gmail.com',
+    maintainer='Joe Willrich Lutalo',
+    maintainer_email='joewillrich@gmail.com',
     url='https://bitbucket.org/jespino/django-visits',
     license='LGPL',
     include_package_data=True,
