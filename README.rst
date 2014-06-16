@@ -10,13 +10,13 @@ Configuration
 
 You settings file should contain the following settings 
 
-* MIN_TIME_BETWEEN_VISITS: the minimum allowed time between visits for the user to update counter
-* IGNORE_URLS: urls to ignore e.g. static urls etc.
-* IGNORE_USER_AGENTS: this is used to define what user agents to ignore
-* BOTS_USER_AGENTS: this is used to define whether user is real or bot is user by BotVisitorMiddleware
-* REQUEST_FIELDS_FOR_HASH: used to generate unique identifier for visitor
-* URI_WITH_GET_PARAMS: use get params to identify diferents uris
-* VISITS_OBJECTS_AS_COUNTERS: enable or disable the behavior of visits objects as counters (on False, every diferent visits is counted in a diferent object)
+* MIN_TIME_BETWEEN_VISITS: (number)  the minimum allowed time between visits for the user to update counter
+* IGNORE_URLS: (list) urls to ignore e.g. static urls etc. **NOTE** : only ignores by not incrementing the hit-counter for the request whose META.PATH_INFO starts with any string in this list. The visit is still logged though. Same thing happnes for IGNORE_USER_AGENTS and BOTS_USER_AGENTS settings below.
+* IGNORE_USER_AGENTS: (list) this is used to define what user agents to ignore. Regexes are supported
+* BOTS_USER_AGENTS: (list) this is used to define whether user is real or bot is user by BotVisitorMiddleware. Regexes are supported
+* REQUEST_FIELDS_FOR_HASH: (list) used to generate unique identifier for visitor
+* URI_WITH_GET_PARAMS: (bool) use get params to identify diferents uris
+* VISITS_OBJECTS_AS_COUNTERS: (bool) enable or disable the behavior of visits objects as counters (on False, every diferent visits is counted in a diferent object)
 
 BOTS_USER_AGENTS by default will have the following values
 
