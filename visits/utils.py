@@ -8,6 +8,7 @@ try:
 except ImportError:
     now = datetime.datetime.now
 
+
 def is_ignored(request, visit, url=True, bots=True, user_agents=True):
     if url:
         for ignored_url in settings.IGNORE_URLS:
@@ -30,6 +31,7 @@ def is_ignored(request, visit, url=True, bots=True, user_agents=True):
     else:
         return True
 
+
 def gen_hash(request, *args):
     h = hashlib.sha1()
     for request_field in settings.REQUEST_FIELDS_FOR_HASH:
@@ -38,8 +40,10 @@ def gen_hash(request, *args):
         h.update(str(arg))
     return h.hexdigest()
 
+
 def get_app_from_object(obj):
     return obj._meta.app_label
+
 
 def get_model_from_object(obj):
     return obj.__class__.__name__

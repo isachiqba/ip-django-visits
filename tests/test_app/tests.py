@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils import unittest
 from django.core.urlresolvers import reverse
 
 from django.test.client import RequestFactory
 
 from visits.models import Visit
 from visits.middleware import CounterMiddleware
+
 
 class TestSuperView(TestCase):
     def setUp(self):
@@ -24,4 +24,4 @@ class TestSuperView(TestCase):
         qs = Visit.objects.get_uri_visits_for(request2, uri=reverse('test-home'))
 
         self.assertEqual(qs.count(), 1)
-        self.assertEqual(qs[0].visits, 2)
+        self.assertEqual(qs[0].visits, 1)  # Visit.objects.get_uri_visits_for matches REMOTE_ADDR as well, in this case which is 1 instance

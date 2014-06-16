@@ -1,8 +1,9 @@
 Welcome
 *******
 
-Django visits is to be used as a counter application for web site.
-You have two ways of how to use this app first is to count urls (CounterMiddleware), second count object visits (aka models)
+Django visits is to be used as a hit-counter application for Django-powered web apps.
+
+You have two ways of how to use this app; first is to count requested urls (CounterMiddleware), the second is to count object visits (aka models)
 
 Configuration
 *************
@@ -100,8 +101,11 @@ Usage
 
 ::
 
-	{% get_visits some_object as visits %}
-	{% get_visits visits_meta as visits %}
+	{% load visits_tags %}
+
+	{% get_visits some_model_instance as visits %}
+	{% get_visits some_request_instance as visits %}
+	{% get_visits some_uri_regex as visits %}
 
 Note: to get uri visits using get_visits templatetag you should add the following to TEMPLATE_CONTEXT_PROCESSORS
 
