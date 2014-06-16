@@ -2,18 +2,19 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-import visits
 
 package_description = open('README.rst').read() + open('CHANGES').read()
 
 setup(
     name='django-visits',
-    version = u":versiontools:visits:",
+    version=u":versiontools:visits:",
     description="Visit counter for Django",
     long_description=package_description,
     keywords='django, visit, counter, visitors',
     author='Jesús Espino García & Sultan Imanhodjaev',
     author_email='jespinog@gmail.com, sultan.imanhodjaev@gmail.com',
+    maintainer='Joe Willrich Lutalo',
+    maintainer_email='joewillrich@gmail.com',
     url='https://bitbucket.org/jespino/django-visits',
     license='LGPL',
     include_package_data=True,
@@ -21,7 +22,7 @@ setup(
     install_requires=[
         'distribute',
     ],
-    setup_requires = [
+    setup_requires=[
         'versiontools >= 1.8',
     ],
     classifiers=[

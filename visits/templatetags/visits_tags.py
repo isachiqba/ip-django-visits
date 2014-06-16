@@ -15,8 +15,11 @@ class VisitsNode(Node):
 
     def render(self, context):
         obj = self.obj.resolve(context)
-        
-        if isinstance(obj, dict):
+        if isinstance(obj, basestring):
+            context[self.context_var] = Visit.objects.filter(
+                uri__regex=obj,
+            ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
+        elif isinstance(obj, dict):
             context[self.context_var] = Visit.objects.filter(
                 uri=obj["request_path"],
                 ).aggregate(visits_sum=Sum("visits"))["visits_sum"]
@@ -30,6 +33,7 @@ class VisitsNode(Node):
             context[self.context_var] = 0
         return ''
 
+
 def do_get_visits(parser, token):
     """
     Retrive the number of visits of a model/slug
@@ -37,11 +41,11 @@ def do_get_visits(parser, token):
     bits = token.contents.split()
     if len(bits) != 4:
         raise TemplateSyntaxError(
-                _('%s tag requires exactly three arguments') % bits[0]
+            _('%s tag requires exactly three arguments') % bits[0]
         )
     if bits[2] != 'as':
         raise TemplateSyntaxError(
-                _("second argument to %s tag must be 'as'") % bits[0]
+            _("second argument to %s tag must be 'as'") % bits[0]
         )
     return VisitsNode(bits[1], bits[3])
 

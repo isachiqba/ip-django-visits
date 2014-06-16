@@ -1,22 +1,19 @@
 # encoding: utf-8
-import datetime
 from south.db import db
 from south.v2 import SchemaMigration
-from django.db import models
+
 
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'Visit.uri'
         db.alter_column('visits_visit', 'uri', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
 
-
     def backwards(self, orm):
-        
+
         # User chose to not deal with backwards NULL issues for 'Visit.uri'
         raise RuntimeError("Cannot reverse this migration. 'Visit.uri' and its values cannot be restored.")
-
 
     models = {
         'visits.visit': {
