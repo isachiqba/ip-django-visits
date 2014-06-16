@@ -15,8 +15,16 @@ def is_ignored(request, visit, url=True, bots=True, user_agents=True):
             if request.META["PATH_INFO"].startswith(ignored_url):
                 return True
 
-    if user_agents and request.META.get("HTTP_USER_AGENT", "") in settings.IGNORE_USER_AGENTS:
-        return True
+    if user_agents:
+        user_agent = request.META.get("HTTP_USER_AGENT", "")
+        if user_agent in settings.IGNORE_USER_AGENTS:
+            return True
+
+        '''try regex matching too'''
+        import re
+        for ua_pattern in settings.IGNORE_USER_AGENTS:
+            if re.search(ua_pattern, user_agent):
+                return True
 
     if bots and request.META.get("IS_BOT", False):
         return True
