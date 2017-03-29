@@ -130,7 +130,7 @@ class VisitManager(models.Manager):
 class Visit(models.Model):
     visitor_hash = models.CharField(max_length=40, blank=True, null=True, db_index=True)
     uri = models.CharField(max_length=255, blank=True, null=True)
-    ip_address = models.IPAddressField(blank=True, null=True, db_index=True)
+    ip_address = models.GenericIPAddressField(blank=True, null=True, db_index=True)
     last_visit = models.DateTimeField(blank=True, null=True)
     visits = models.IntegerField(default=0)
     object_app = models.CharField(max_length=255)
